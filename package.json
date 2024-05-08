@@ -1,6 +1,6 @@
 {
   "name": "xss-whitelist",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Whitelist of HTML tags and attributes to help prevent XSS attacks.",
   "main": "dist/index.js",
   "type": "module",
@@ -29,8 +29,5 @@
     "@vitest/coverage-v8": "^1.2.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
-  },
-  "dependencies": {
-    "loudify": "3.0.0"
   }
 }
