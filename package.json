@@ -1,0 +1,36 @@
+{
+  "name": "xss-whitelist",
+  "version": "1.0.0",
+  "description": "Whitelist of HTML tags and attributes to help prevent XSS attacks.",
+  "main": "dist/index.js",
+  "type": "module",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest --run --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p-jack/xss-whitelist.git"
+  },
+  "author": "Paul Jack",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/p-jack/xss-whitelist/issues"
+  },
+  "homepage": "https://github.com/p-jack/xss-whitelist#readme",
+  "devDependencies": {
+    "@types/web": "^0.0.138",
+    "@vitest/coverage-v8": "^1.2.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  },
+  "dependencies": {
+    "loudify": "3.0.0"
+  }
+}
