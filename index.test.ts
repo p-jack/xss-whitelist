@@ -69,6 +69,7 @@ test("globals", () => {
 
 test("urls", () => {
   raise("a", "href", "https://a.c")
+  raise("a", "href", "#section")
   expect(() => { raise("a", "href", "https:")}).toThrow("not allowing a.href: invalid URL [https:]")
   expect(() => { raise("a", "href", "javascript:alert(1)")}).toThrow("not allowing a.href: invalid protocol javascript:")
   expect(() => { raise("a", "href", "data:alert(1)")}).toThrow("not allowing a.href: invalid protocol data:")

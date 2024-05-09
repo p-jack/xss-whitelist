@@ -25,7 +25,8 @@ export const urlHandler = (tag:string, attr:string, value?:string):void => {
     throw new XSSWhitelistError(tag, attr, "invalid URL [" + value + "]", {cause:e})
   }
   if (protocols.has(url.protocol)) return
-  if (url.protocol === "http:" && url.hostname !== "localhost") {
+  if (url.protocol === "http:") {
+    if (url.hostname === "localhost") return
     throw new XSSWhitelistError(tag, attr, "using unencrypted http")
   } else {
     throw new XSSWhitelistError(tag, attr, "invalid protocol " + url.protocol)
