@@ -18,7 +18,7 @@ ok = XSSWhitelist.allow("a", "onclick", "alert(1)") // false
 
 // Use .raise to throw a descriptive error instead:
 XSSWhitelist.raise("a", "href", "javascript:alert(1)")
-// XSSWhitelistError - not allowing a.href: invalid protocol javascript:
+// XSSWhitelistError - not allowing a.href: invalid protocol javascript
 
 // Add a new tag and its attributes to the whitelist:
 XSSWhitelist.add("object", ["archive"])
@@ -32,7 +32,7 @@ XSSWhitelist.addHandler("data-url", XSSWhitelist.urlHandler)
 // You can also allow additional protocols if needed:
 XSSWhitelist.addProtocol("sftp:")
 
-// add custom validation rules to an attribute
+// Add custom validation rules to an attribute:
 XSSWhitelist.addHandler("data-foo",
 (tag:string, attr:string, value?:string) => {
   if (tag !== "div") {

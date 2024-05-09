@@ -158,6 +158,7 @@ const list:Whitelist = {
     "size",
     "src",
     "step",
+    "type",
     "value",
     "width",
   ]),
