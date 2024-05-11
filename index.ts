@@ -8,7 +8,28 @@ export namespace XSSWhitelist {//
 
 type Whitelist = Record<string,Set<string>|null>
 
-const globals = new Set(["id", "class"])
+const globals = new Set([
+"accesskey",
+"autocapitalize",
+"autofocus",
+"class",
+"contenteditable",
+"dir",
+"draggable",
+"enterkeyhint",
+"hidden",
+"id",
+"inert",
+"inputmode",
+"lang",
+"nonce",
+"part",
+"role",
+"slot",
+"spellcheck",
+"tabindex",
+"translate",
+])
 
 const protocols = new Set(["https:"])
 
@@ -88,10 +109,10 @@ handlers.set("archive", (tag:string, attr:string, value?:string) => {
 })
 
 const list:Whitelist = {
-  a: new Set(["target", "href", "title"]),
+  a: new Set(["href", "target", "title"]),
   abbr: new Set(["title"]),
   address: null,
-  area: new Set(["shape", "coords", "href", "alt"]),
+  area: new Set(["alt", "coords", "href", "shape"]),
   article: null,
   aside: null,
   audio: new Set([
@@ -109,22 +130,27 @@ const list:Whitelist = {
   bdo: new Set(["dir"]),
   blockquote: new Set(["cite"]),
   br: null,
+  button: new Set(["disabled","popovertarget","popovertargetaction"]),
   caption: null,
   cite: null,
   code: null,
-  col: new Set(["align", "valign", "span", "width"]),
-  colgroup: new Set(["align", "valign", "span", "width"]),
+  col: new Set(["align","span","valign","width"]),
+  colgroup: new Set(["align","span","valign","width"]),
+  data: new Set(["value"]),
+  datalist: null,
   dd: null,
-  del: new Set(["datetime"]),
-  details: new Set(["open"]),
+  del: new Set(["cite","datetime"]),
+  details: new Set(["name","open"]),
+  dfn: new Set(["title"]),
   div: null,
   dl: null,
   dt: null,
   em: null,
+  fieldset: new Set(["disabled","form","name"]),
   figcaption: null,
   figure: null,
-  form: null,
   footer: null,
+  form: null,
   h1: null,
   h2: null,
   h3: null,
@@ -134,11 +160,10 @@ const list:Whitelist = {
   header: null,
   hr: null,
   i: null,
-  img: new Set(["src", "srcset", "alt", "title", "width", "height", "loading"]),
+  img: new Set([ "alt","height","loading","src","srcset","title","width"]),
   input: new Set([
     "accept",
     "alt",
-    "autocapitalize",
     "autocomplete",
     "capture",
     "checked",
@@ -163,21 +188,32 @@ const list:Whitelist = {
     "value",
     "width",
   ]),
-  ins: new Set(["datetime"]),
+  ins: new Set(["cite","datetime"]),
   kbd: null,
   label: new Set(["for"]),
-  li: null,
+  legend: null,
+  li: new Set(["value"]),
+  main: null,
   mark: null,
+  meter: new Set(["high","low","max","min","optimum","value"]),
   nav: null,
-  ol: null,
-  option: new Set(["disabled", "label", "selected", "value"]),
+  ol: new Set(["reveresed","start","type"]),
+  option: new Set(["disabled","label","selected","value"]),
+  optiongrp: new Set(["disabled","label"]),
   p: null,
+  picture: null,
   pre: null,
+  progress: new Set(["max","value"]),
+  q: new Set(["cite"]),
+  rp: null,
+  rt: null,
+  ruby: null,
   s: null,
+  samp: null,
+  search: null,
   section: null,
   select: new Set([
     "autocomplete",
-    "autofocus",
     "disabled",
     "multiple",
     "name",
@@ -185,19 +221,18 @@ const list:Whitelist = {
     "size",
   ]),
   small: null,
+  source: new Set(["height","media","src","srcset","sizes","type","width"]),
   span: null,
   sub: null,
   summary: null,
   sup: null,
   strong: null,
-  table: new Set(["width", "border", "align", "valign"]),
-  tbody: new Set(["align", "valign"]),
-  td: new Set(["width", "rowspan", "colspan", "align", "valign"]),
+  table: new Set([ "align","border","valign","width"]),
+  tbody: new Set(["align","valign"]),
+  td: new Set(["align","colspan","rowspan","valign","width"]),
   textarea: new Set([
-    "autocapitalize",
     "autocomplete",
     "autocorrect",
-    "autofocus",
     "cols",
     "dirname",
     "disabled",
@@ -210,12 +245,15 @@ const list:Whitelist = {
     "spellcheck",
     "wrap",
   ]),
-  tfoot: new Set(["align", "valign"]),
-  th: new Set(["width", "rowspan", "colspan", "align", "valign"]),
-  thead: new Set(["align", "valign"]),
-  tr: new Set(["rowspan", "align", "valign"]),
+  tfoot: new Set(["align","valign"]),
+  th: new Set(["align","colspan","rowspan","valign","width"]),
+  thead: new Set(["align","valign"]),
+  time: new Set(["datetime"]),
+  tr: new Set(["align","rowspan","valign"]),
+  track: new Set(["default","kind","label","src"]),
   u: null,
   ul: null,
+  var: null,
   video: new Set([
     "autoplay",
     "controls",
@@ -229,6 +267,7 @@ const list:Whitelist = {
     "height",
     "width",
   ]),
+  wbr: null,
 }
 
 export const allow = (tag:keyof HTMLElementTagNameMap, attr?:string, value?:string):boolean => {
@@ -245,7 +284,7 @@ export const raise = (tag:keyof HTMLElementTagNameMap, attr?:string, value?:stri
   if (!(tag in list)) throw new XSSWhitelistError(tag, attr, "not in tag whitelist")
   if (attr === undefined) return
   handlers.get(attr)?.(tag, attr, value)
-  if (globals.has(attr) || attr.startsWith("data-")) return
+  if (globals.has(attr) || attr.startsWith("data-") || attr.startsWith("aria-")) return
   if (list[tag]?.has(attr) ?? false) return
   throw new XSSWhitelistError(tag, attr, "not in attr whitelist")
 }
